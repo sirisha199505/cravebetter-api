@@ -1,0 +1,6 @@
+.DS_Store
+.byebug_history
+newrelic_agent.log
+./older
+*.db
+.env
