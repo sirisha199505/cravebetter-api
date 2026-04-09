@@ -30,7 +30,9 @@ class App::Services::Products < App::Services::Base
 
   def self.fields
     {
-      save: [:name, :category, :description, :price, :image_url, :badge, :badge_color, :rating, :orders_count, :active]
+      save: [:name, :category, :description, :price, :image_url, :badge, :badge_color,
+             :rating, :orders_count, :active,
+             :protein, :calories, :carbs, :fat, :weight, :ingredients, :benefits]
     }
   end
 end

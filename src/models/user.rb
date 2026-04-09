@@ -26,11 +26,12 @@ class App::Models::User < Sequel::Model
 
   def as_pos
     {
-      id:         id,
-      email:      email,
-      full_name:  full_name,
-      role:       role,
-      active:     active,
+      id:           id,
+      email:        email,
+      full_name:    full_name,
+      phone_number: phone_number,
+      role:         role,
+      active:       active,
     }
   end
 end

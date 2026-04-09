@@ -15,63 +15,83 @@ require_relative '../src/app'
 
 App.load!
 
+puts "Deactivating old products..."
+App::Models::Product.where(active: true).update(active: false)
+
 puts "Seeding Crave Better products..."
 
 PRODUCTS = [
   {
-    name:         'Chocolate Peanut Butter',
+    name:         'Classic Square',
     category:     'Protein Bar',
-    description:  'Rich dark chocolate meets creamy peanut butter in every indulgent bite. Packed with 20g of premium whey protein, the ultimate post-workout treat.',
-    price:        150,
-    image_url:    '/bar1.png',
+    description:  'The original Crave Better bar — made with Ragi, Peanuts & Oats and sweetened naturally with Jaggery. A wholesome, crunchy snack loaded with fiber and sustained energy.',
+    price:        35,
+    image_url:    '/classic%20square.png',
     badge:        'Best Seller',
     badge_color:  '#54221b',
     rating:       4.8,
     orders_count: 1200,
+    protein:      '5g',
+    calories:     '120 kcal',
+    carbs:        '13g',
+    fat:          '3.2g',
+    weight:       '28g',
+    ingredients:  'Roasted Peanut (36%), Multigrain Muesli Mix (29%) [Ragi Crisps, Oats, Pumpkin Seeds], Jaggery (22%), FOS (10%), Skimmed Milk Powder (2%), Vanilla Flavour, Rosemary Extract. Allergens: Contains Peanuts, Milk.',
+    benefits:     [
+      '100% Natural ingredients',
+      'Sweetened with Jaggery — no refined sugar',
+      'No artificial preservatives',
+      'High in dietary fiber (6g per bar)',
+      'Made with Ragi, Peanuts & Oats',
+    ],
   },
   {
-    name:         'Salted Caramel',
+    name:         'Dark Choco Square',
     category:     'Protein Bar',
-    description:  'Indulge in the perfect balance of sweet caramel and a hint of sea salt. With 18g of protein per bar, guilt-free indulgence at its finest.',
-    price:        150,
-    image_url:    '/bar2.png',
-    badge:        'New',
+    description:  'All the goodness of the Classic Square wrapped in a rich dark chocolate coating. Made with Ragi, Peanuts & Oats — indulgent yet clean, sweetened only with Jaggery.',
+    price:        60,
+    image_url:    '/dark%20chocolate%201.png',
+    badge:        'Fan Fav',
     badge_color:  '#1e5054',
+    rating:       4.7,
+    orders_count: 980,
+    protein:      '5g',
+    calories:     '180 kcal',
+    carbs:        '22g',
+    fat:          '6.5g',
+    weight:       '38g',
+    ingredients:  'Roasted Peanut (33%), Multigrain Muesli Mix (29%) [Ragi Crisps, Oats, Pumpkin Seeds], Jaggery (22%), FOS (10%), Skimmed Milk Powder (2%), Dark Chocolate Coating, Vanilla Flavour, Rosemary Extract. Allergens: Contains Peanuts, Milk.',
+    benefits:     [
+      '100% Natural ingredients',
+      'Sweetened with Jaggery — no refined sugar',
+      'No artificial preservatives',
+      'Rich dark chocolate coating',
+      'Made with Ragi, Peanuts & Oats',
+    ],
+  },
+  {
+    name:         'Milk Choco Square',
+    category:     'Protein Bar',
+    description:  "Creamy milk chocolate meets the wholesome crunch of Ragi, Peanuts & Oats. Sweetened with Jaggery for a smooth, guilt-lighter treat you'll keep coming back to.",
+    price:        50,
+    image_url:    '/milk%20choco%20square.png',
+    badge:        'New',
+    badge_color:  '#7b3f00',
     rating:       4.6,
     orders_count: 450,
-  },
-  {
-    name:         'Dark Chocolate',
-    category:     'Protein Bar',
-    description:  'Pure, intense dark chocolate packed with antioxidants and 20g of muscle-building protein. No fillers, just results.',
-    price:        150,
-    image_url:    '/bar3.png',
-    badge:        nil,
-    badge_color:  nil,
-    rating:       4.7,
-    orders_count: 890,
-  },
-  {
-    name:         'Vanilla Almond',
-    category:     'Protein Bar',
-    description:  'Classic, smooth vanilla with satisfying crunchy almonds. 19g of protein with heart-healthy fats from real roasted almonds.',
-    price:        160,
-    image_url:    '/bar4.png',
-    badge:        nil,
-    badge_color:  nil,
-    rating:       4.5,
-    orders_count: 620,
-  },
-  {
-    name:         'Mixed Berry',
-    category:     'Protein Bar',
-    description:  'A vibrant burst of strawberries, blueberries, and raspberries combined with 18g of clean protein. Light, fruity, refreshing.',
-    price:        160,
-    image_url:    '/bar5.png',
-    badge:        'Fan Fav',
-    badge_color:  '#7b2d8b',
-    rating:       4.9,
-    orders_count: 980,
+    protein:      '5g',
+    calories:     '170 kcal',
+    carbs:        '20g',
+    fat:          '8.5g',
+    weight:       '38g',
+    ingredients:  'Roasted Peanuts (36%), Multigrain Muesli Mix (29%) [Ragi Crisps, Oats, Pumpkin Seeds], Jaggery (22%), FOS (10%), Skimmed Milk Powder (20%), Sugar, Edible Vegetable Fat, Salt, Milk Solids. Allergens: Contains Peanuts, Milk, Tree Nuts.',
+    benefits:     [
+      '100% Natural ingredients',
+      'Sweetened with Jaggery — no refined sugar',
+      'No artificial preservatives',
+      'Smooth milk chocolate coating',
+      'Made with Ragi, Peanuts & Oats',
+    ],
   },
 ]
 
@@ -86,4 +106,4 @@ PRODUCTS.each do |p|
   end
 end
 
-puts "Done. #{App::Models::Product.count} products total."
+puts "Done. #{App::Models::Product.where(active: true).count} active products."
