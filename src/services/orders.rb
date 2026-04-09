@@ -1,4 +1,6 @@
 class App::Services::Orders < App::Services::Base
+  ADMIN_EMAIL = 'luckysirisha1@gmail.com'.freeze
+
   def model; App::Models::Order; end
 
   def list
@@ -18,14 +20,16 @@ class App::Services::Orders < App::Services::Base
 
   # Public — called from checkout (no auth required)
   def place
-    p = qs  # params come directly, not nested under :data for public endpoint
+    p = qs
 
     order = model.new(
       customer_name:  p[:customer_name],
       customer_phone: p[:customer_phone],
+      customer_email: p[:customer_email],
       address_flat:   p[:address_flat],
       address_area:   p[:address_area],
       address_city:   p[:address_city],
+      address_state:  p[:address_state],
       address_pin:    p[:address_pin],
       payment_method: p[:payment_method] || 'upi',
       items:          p[:items] || [],
@@ -37,6 +41,7 @@ class App::Services::Orders < App::Services::Base
     )
 
     if order.save
+      send_admin_notification(order)
       return_success(order.to_pos)
     else
       return_errors!(order.errors)
@@ -60,5 +65,47 @@ class App::Services::Orders < App::Services::Base
 
   def self.fields
     { save: [] }
+  end
+
+  private
+
+  def send_admin_notification(order)
+    items_text = Array(order.items).map do |i|
+      "  • #{i['name']} x#{i['qty']} — ₹#{i['price'].to_i * i['qty'].to_i}"
+    end.join("\n")
+
+    body = <<~BODY
+      New order received on Crave Better Foods!
+
+      Order ID : ##{order.id}
+      Customer : #{order.customer_name}
+      Phone    : #{order.customer_phone}
+      Email    : #{order.customer_email}
+
+      Delivery Address:
+        #{order.address_flat}, #{order.address_area}
+        #{order.address_city}#{order.address_state ? ", #{order.address_state}" : ''} - #{order.address_pin}
+
+      Items:
+      #{items_text}
+
+      Item Total   : ₹#{order.item_total}
+      Delivery Fee : ₹#{order.delivery_fee}
+      Platform Fee : ₹#{order.platform_fee}
+      Grand Total  : ₹#{order.grand_total}
+
+      Payment Method: #{order.payment_method&.upcase}
+      Placed at: #{order.created_at}
+    BODY
+
+    Mail.new do
+      from    ENV['EMAIL_USER']
+      to      ADMIN_EMAIL
+      subject "New Order ##{order.id} — ₹#{order.grand_total} | Crave Better"
+      body    body
+    end.deliver!
+  rescue => e
+    App.logger.error("Admin email failed: #{e.message}")
+    # Don't fail the order if email fails
   end
 end
