@@ -7,6 +7,8 @@ WORKDIR /app
 COPY Gemfile* .
 
 ENV BUNDLE_FROZEN=false
+ENV RACK_ENV=production
+
 RUN gem install bundler -v 2.6.2 && \
     bundle config set --local without 'development' && \
     bundle install
