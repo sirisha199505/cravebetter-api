@@ -6,13 +6,14 @@ class App::Services::BulkOrders < App::Services::Base
     p = qs[:data] || qs
 
     req = model.new(
-      business_name:  p[:business_name].to_s.strip,
-      contact_name:   p[:contact_name].to_s.strip,
-      contact_phone:  p[:contact_phone].to_s.strip,
-      contact_email:  p[:contact_email].to_s.strip,
-      quantity:       p[:quantity].to_i,
-      message:        p[:message].to_s.strip,
-      status:         'new',
+      business_name:      p[:business_name].to_s.strip,
+      contact_name:       p[:contact_name].to_s.strip,
+      contact_phone:      p[:contact_phone].to_s.strip,
+      contact_email:      p[:contact_email].to_s.strip,
+      product_preference: p[:product_preference].to_s.strip,
+      quantity:           p[:quantity].to_i,
+      message:            p[:message].to_s.strip,
+      status:             'new',
     )
 
     if req.save
@@ -50,6 +51,6 @@ class App::Services::BulkOrders < App::Services::Base
   end
 
   def self.fields
-    { save: [:business_name, :contact_name, :contact_phone, :contact_email, :quantity, :message, :status] }
+    { save: [:business_name, :contact_name, :contact_phone, :contact_email, :product_preference, :quantity, :message, :status] }
   end
 end
