@@ -70,7 +70,7 @@ PRODUCTS = [
     ],
   },
   {
-    name:         'Milk Choco Square',
+    name:         'milk choco square1',
     category:     'Chocolate Square',
     description:  "Silky milk chocolate meets crunchy Ragi and Peanuts — smooth on the outside, satisfying crunch inside. The one you'll keep reaching for, without the morning-after regret.",
     price:        50,

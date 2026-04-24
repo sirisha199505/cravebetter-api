@@ -56,6 +56,11 @@ class App::Routes < Roda
         r.get(Integer) { |id| Products[r, id: id].get }
       end
 
+      # Public: page contents (privacy policy, terms, etc.)
+      r.on 'page-contents' do
+        r.get(String) { |slug| PageContents[r, slug: slug].get_by_slug }
+      end
+
       # Public: place an order from the checkout page
       r.post('orders') { Orders[r].place }
 
@@ -99,6 +104,11 @@ class App::Routes < Roda
             r.get { BulkOrders[r].list }
             r.get(Integer) { |id| BulkOrders[r, id: id].get }
             r.put(Integer) { |id| BulkOrders[r, id: id].update_status }
+          end
+
+          r.on 'page-contents' do
+            r.get(String)  { |slug| PageContents[r, slug: slug].get_by_slug }
+            r.put(String)  { |slug| PageContents[r, slug: slug].upsert }
           end
         end
 
