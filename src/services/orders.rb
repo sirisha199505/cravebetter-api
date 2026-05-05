@@ -35,7 +35,7 @@ class App::Services::Orders < App::Services::Base
       items:          p[:items] || [],
       item_total:     p[:item_total].to_i,
       delivery_fee:   p[:delivery_fee].to_i,
-      platform_fee:   (p[:platform_fee] || 5).to_i,
+      platform_fee:   (p[:platform_fee] || 0).to_i,
       grand_total:    p[:grand_total].to_i,
       status:         'pending',
     )
