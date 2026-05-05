@@ -10,6 +10,7 @@ class App::Models::Order < Sequel::Model
   def to_pos
     {
       id:             id,
+      order_number:   order_number,
       customer_name:  customer_name,
       customer_phone: customer_phone,
       customer_email: customer_email,
