@@ -73,6 +73,9 @@ class App::Routes < Roda
         r.post('verify')       { Payments[r].verify }
       end
 
+      # Public: Razorpay webhook (server-to-server, verified by signature)
+      r.post('webhooks/razorpay') { Payments[r].webhook }
+
       # ── Authenticated routes ──────────────────────────────────────
 
       auth_required!

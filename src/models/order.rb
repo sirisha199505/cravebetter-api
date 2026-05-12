@@ -27,8 +27,10 @@ class App::Models::Order < Sequel::Model
       delivery_fee:   delivery_fee,
       platform_fee:   platform_fee,
       grand_total:    grand_total,
-      status:         status,
-      created_at:     created_at,
+      status:              status,
+      razorpay_order_id:   razorpay_order_id,
+      razorpay_payment_id: razorpay_payment_id,
+      created_at:          created_at,
     }
   end
 end

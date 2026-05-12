@@ -10,6 +10,25 @@ require './src/app'
 
 Bundler.require(:default, App.env)
 
+# Saves the raw request body for webhook paths before json_parser consumes it
+class RawBodyCapture
+  PATHS = ['/api/webhooks/razorpay'].freeze
+
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    if PATHS.include?(env['PATH_INFO']) && env['REQUEST_METHOD'] == 'POST'
+      body = env['rack.input'].read
+      env['rack.input'] = StringIO.new(body)
+      env['RAW_BODY']   = body
+    end
+    @app.call(env)
+  end
+end
+
+use RawBodyCapture
 
 use Rack::Cors do
   allow do
