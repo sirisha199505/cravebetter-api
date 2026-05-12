@@ -67,6 +67,12 @@ class App::Routes < Roda
       # Public: submit a bulk order request
       r.post('bulk-orders') { BulkOrders[r].create }
 
+      # Public: Razorpay payment
+      r.on 'payments' do
+        r.post('create-order') { Payments[r].create_order }
+        r.post('verify')       { Payments[r].verify }
+      end
+
       # ── Authenticated routes ──────────────────────────────────────
 
       auth_required!
