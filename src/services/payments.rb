@@ -73,7 +73,7 @@ class App::Services::Payments < App::Services::Base
       "#{rzp_order_id}|#{rzp_payment_id}"
     )
 
-    unless ActiveSupport::SecurityUtils.secure_compare(expected, rzp_signature)
+    unless Rack::Utils.secure_compare(expected, rzp_signature)
       return_errors!('Payment verification failed. Please contact support.')
     end
 
@@ -102,7 +102,7 @@ class App::Services::Payments < App::Services::Base
       raw_body
     )
 
-    unless ActiveSupport::SecurityUtils.secure_compare(expected, signature)
+    unless Rack::Utils.secure_compare(expected, signature)
       App.logger.warn('Razorpay webhook: invalid signature')
       return_errors!('Invalid signature', 400)
     end

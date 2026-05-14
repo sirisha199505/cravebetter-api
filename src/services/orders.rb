@@ -1,5 +1,5 @@
 class App::Services::Orders < App::Services::Base
-  ADMIN_EMAIL = 'luckysirisha1@gmail.com'.freeze
+  ADMIN_EMAIL = 'listen@cravebetter4u.com'.freeze
 
   def model; App::Models::Order; end
 
