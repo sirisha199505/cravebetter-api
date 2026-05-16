@@ -73,7 +73,7 @@ PAGES = [
         <li>Request deletion of your data (subject to legal obligations)</li>
         <li>Opt out of marketing communications at any time</li>
       </ul>
-      <p>To exercise any of these rights, please contact us at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a>.</p>
+      <p>To exercise any of these rights, please contact us at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a>.</p>
 
       <h2>8. Third-Party Links</h2>
       <p>Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of those sites. We encourage you to review the privacy policies of any third-party websites you visit.</p>
@@ -84,7 +84,7 @@ PAGES = [
       <h2>10. Contact Us</h2>
       <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
       <ul>
-        <li>Email: <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a></li>
+        <li>Email: <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a></li>
         <li>Phone: +91 8008804992 / +91 8008804991 / +91 8008804997</li>
       </ul>
     HTML
@@ -132,7 +132,7 @@ PAGES = [
       <p>We reserve the right to update these Terms and Conditions at any time. Continued use of the website after changes are posted constitutes your acceptance of the revised terms.</p>
 
       <h2>10. Contact</h2>
-      <p>For any questions regarding these Terms, please contact us at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a>.</p>
+      <p>For any questions regarding these Terms, please contact us at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a>.</p>
     HTML
   },
 
@@ -144,7 +144,7 @@ PAGES = [
 
       <h2>1. Order Cancellation</h2>
       <h3>Before Dispatch</h3>
-      <p>Orders can be cancelled within <strong>12 hours of placing the order</strong>, provided the order has not yet been dispatched. To request a cancellation, contact us immediately at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a> or call us at +91 8008804992.</p>
+      <p>Orders can be cancelled within <strong>12 hours of placing the order</strong>, provided the order has not yet been dispatched. To request a cancellation, contact us immediately at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a> or call us at +91 8008804992.</p>
 
       <h3>After Dispatch</h3>
       <p>Once an order has been dispatched, it cannot be cancelled. You may, however, raise a return or refund request as described below upon delivery.</p>
@@ -165,7 +165,7 @@ PAGES = [
 
       <h2>3. How to Raise a Return Request</h2>
       <ol>
-        <li>Contact us within <strong>48 hours of delivery</strong> at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a></li>
+        <li>Contact us within <strong>48 hours of delivery</strong> at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a></li>
         <li>Include your order number, a clear description of the issue, and photos of the damaged/incorrect product</li>
         <li>Our team will review your request and respond within 2 business days</li>
         <li>If approved, we will arrange a pickup or provide instructions for returning the product</li>
@@ -188,7 +188,7 @@ PAGES = [
       <h2>7. Contact Us</h2>
       <p>For all cancellation and refund enquiries, please reach out to us:</p>
       <ul>
-        <li>Email: <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a></li>
+        <li>Email: <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a></li>
         <li>Phone: +91 8008804992 / +91 8008804991 / +91 8008804997</li>
       </ul>
     HTML
@@ -235,7 +235,7 @@ PAGES = [
       </ul>
 
       <h2>8. Damaged in Transit</h2>
-      <p>If your order arrives damaged, please take photographs and contact us within <strong>48 hours of delivery</strong> at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a>. We will arrange a replacement or refund as per our Refund Policy.</p>
+      <p>If your order arrives damaged, please take photographs and contact us within <strong>48 hours of delivery</strong> at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a>. We will arrange a replacement or refund as per our Refund Policy.</p>
 
       <h2>9. Bulk Orders</h2>
       <p>Shipping timelines and charges for bulk orders may differ based on quantity and location. Our team will provide specific delivery details at the time of confirming your bulk order.</p>
@@ -243,7 +243,7 @@ PAGES = [
       <h2>10. Contact Us</h2>
       <p>For any shipping-related queries, please reach us at:</p>
       <ul>
-        <li>Email: <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a></li>
+        <li>Email: <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a></li>
         <li>Phone: +91 8008804992 / +91 8008804991 / +91 8008804997</li>
       </ul>
     HTML
@@ -257,7 +257,7 @@ PAGES = [
 
       <h2>Get in Touch</h2>
       <ul>
-        <li><strong>Email:</strong> <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a></li>
+        <li><strong>Email:</strong> <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a></li>
         <li><strong>Phone:</strong> +91 8008804992 / +91 8008804991 / +91 8008804997</li>
       </ul>
       <p>We typically respond to all enquiries within <strong>24–48 business hours</strong> (Monday to Saturday, 10 AM – 6 PM IST).</p>
@@ -266,10 +266,10 @@ PAGES = [
       <p>If you're interested in ordering in bulk for your office, school, events, or gifting — we'd love to discuss a custom arrangement. Please use our <a href="/bulk-orders">Bulk Orders form</a> for a quicker response, or email us directly with your requirements.</p>
 
       <h2>For Order Issues</h2>
-      <p>If you have a concern about a delivered order (damaged product, wrong item, missing items), please email us at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a> with your order number and photographs. We'll get it sorted for you.</p>
+      <p>If you have a concern about a delivered order (damaged product, wrong item, missing items), please email us at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a> with your order number and photographs. We'll get it sorted for you.</p>
 
       <h2>Feedback & Suggestions</h2>
-      <p>We're always looking to improve. If you have feedback about our products, website, or service, we genuinely want to hear it. Drop us a note at <a href="mailto:listen@cravebetter4u.com">listen@cravebetter4u.com</a> — every message is read by our team.</p>
+      <p>We're always looking to improve. If you have feedback about our products, website, or service, we genuinely want to hear it. Drop us a note at <a href="mailto:kalyani@cravebetter4u.com">kalyani@cravebetter4u.com</a> — every message is read by our team.</p>
     HTML
   },
 ]
