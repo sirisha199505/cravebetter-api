@@ -55,7 +55,7 @@ class App::Services::Payments < App::Services::Base
       return_errors!('Could not save order. Please try again.')
     end
 
-    return_success({ id: rzp_order_id, amount: rzp['amount'], currency: rzp['currency'], order_id: order.id })
+    return_success({ id: rzp_order_id, amount: rzp['amount'], currency: rzp['currency'], order_id: order.id, key_id: ENV['RAZORPAY_KEY_ID'] })
   rescue => e
     App.logger.error("Razorpay create_order: #{e.message}")
     return_errors!(e.message)
