@@ -55,7 +55,7 @@ class App::Services::Orders < App::Services::Base
 
   # Admin — update order status
   def update_status
-    new_status = qs[:status]
+    new_status = params[:status]
     unless App::Models::Order::STATUSES.include?(new_status)
       return_errors!("Invalid status. Allowed: #{App::Models::Order::STATUSES.join(', ')}")
     end

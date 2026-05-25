@@ -61,6 +61,38 @@ class App::Routes < Roda
         r.get(String) { |slug| PageContents[r, slug: slug].get_by_slug }
       end
 
+      # Public: FAQs
+      r.on 'faqs' do
+        r.get { Faqs[r].list }
+      end
+
+      # Public: Pincode lookup proxy (avoids browser CORS on postalpincode.in)
+      r.on 'pincode' do
+        r.get String do |pin|
+          require 'net/http'
+          require 'openssl'
+          begin
+            uri  = URI("https://api.postalpincode.in/pincode/#{pin.gsub(/\D/, '')}")
+            http = Net::HTTP.new(uri.host, uri.port)
+            http.use_ssl     = true
+            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+            http.open_timeout = 5
+            http.read_timeout = 5
+            raw  = http.get(uri.request_uri)
+            data = JSON.parse(raw.body)
+            if data[0]['Status'] == 'Success' && data[0]['PostOffice']&.any?
+              po = data[0]['PostOffice'][0]
+              { status: 'success', data: { city: po['District'] || po['Name'], state: po['State'] } }
+            else
+              { status: 'error', data: 'Pincode not found' }
+            end
+          rescue => e
+            App.logger.error("Pincode lookup failed: #{e.message}")
+            { status: 'error', data: 'Pincode lookup failed' }
+          end
+        end
+      end
+
       # Public: place an order from the checkout page
       r.post('orders') { Orders[r].place }
 
@@ -118,6 +150,13 @@ class App::Routes < Roda
           r.on 'page-contents' do
             r.get(String)  { |slug| PageContents[r, slug: slug].get_by_slug }
             r.put(String)  { |slug| PageContents[r, slug: slug].upsert }
+          end
+
+          r.on 'faqs' do
+            r.get    { Faqs[r].admin_list }
+            r.post   { Faqs[r].create }
+            r.put(Integer)    { |id| Faqs[r, id: id].update }
+            r.delete(Integer) { |id| Faqs[r, id: id].delete }
           end
         end
 
