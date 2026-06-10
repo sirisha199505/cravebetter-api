@@ -162,8 +162,8 @@ Please change the parent <Route path="${e}"> to <Route path="${e===`/`?`*`:`${e}
 
 <h2>2. Shipping Charges</h2>
 <ul>
-  <li><strong>Free delivery</strong> on all orders above <strong>₹599</strong></li>
-  <li>For orders below ₹599, a flat shipping fee will be applied at checkout</li>
+  <li><strong>Free delivery</strong> on all orders above <strong>₹499</strong></li>
+  <li>For orders below ₹499, a flat shipping fee will be applied at checkout</li>
 </ul>
 
 <h2>3. Processing Time</h2>
