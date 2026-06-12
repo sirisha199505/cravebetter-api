@@ -262,6 +262,10 @@ PAGES = [
       </ul>
       <p>We typically respond to all enquiries within <strong>24–48 business hours</strong> (Monday to Saturday, 10 AM – 6 PM IST).</p>
 
+      <h2>Marketed By</h2>
+      <p><strong>Goodflux Foods Private Limited</strong><br>
+      F.No 201, P.No 733, 735, Jetty Uma Chambers, Defence Colony, Sainikpuri, Malkajgiri, Hyderabad, Telangana – 500094</p>
+
       <h2>For Bulk Orders</h2>
       <p>If you're interested in ordering in bulk for your office, school, events, or gifting — we'd love to discuss a custom arrangement. Please use our <a href="/bulk-orders">Bulk Orders form</a> for a quicker response, or email us directly with your requirements.</p>
 
