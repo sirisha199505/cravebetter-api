@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /cart
+
+Sitemap: https://www.cravebetter4u.com/sitemap.xml
