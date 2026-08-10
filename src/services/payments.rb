@@ -172,14 +172,19 @@ class App::Services::Payments < App::Services::Base
       Placed at      : #{order.created_at}
     BODY
 
+    App.logger.info("Admin email: sending order ##{order.order_number} to #{App::Services::Orders::ADMIN_EMAIL} via #{ENV['EMAIL_SMTP_SERVER'].inspect} as #{ENV['EMAIL_USER'].inspect}")
+
     Mail.new do
       from    ENV['EMAIL_USER']
       to      App::Services::Orders::ADMIN_EMAIL
       subject "New Order ##{order.order_number} — ₹#{order.grand_total} | Crave Better"
       body    body
     end.deliver!
+
+    App.logger.info("Admin email: sent order ##{order.order_number}")
   rescue => e
-    App.logger.error("Admin email failed: #{e.message}")
+    App.logger.error("Admin email failed for order ##{order.order_number}: #{e.class}: #{e.message}")
+    App.logger.error(e.backtrace.first(5).join("\n"))
   end
 
   def send_customer_confirmation(order)
@@ -221,6 +226,6 @@ class App::Services::Payments < App::Services::Base
       body    body
     end.deliver!
   rescue => e
-    App.logger.error("Customer email failed: #{e.message}")
+    App.logger.error("Customer email failed for order ##{order.order_number}: #{e.class}: #{e.message}")
   end
 end

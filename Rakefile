@@ -25,6 +25,66 @@ namespace :db do
 end
 
 
+namespace :email do
+  desc "Diagnose SMTP config and connectivity from inside this machine"
+  task :diagnose, [:to] do |t, args|
+    require 'net/smtp'
+    require 'socket'
+
+    host = ENV['EMAIL_SMTP_SERVER']
+    user = ENV['EMAIL_USER']
+    pass = ENV['EMAIL_PASSWORD']
+
+    puts "RACK_ENV              : #{ENV['RACK_ENV'].inspect}"
+    puts "EMAIL_SMTP_SERVER     : #{host.inspect}"
+    puts "EMAIL_DOMAIN          : #{ENV['EMAIL_DOMAIN'].inspect}"
+    puts "EMAIL_USER            : #{user.inspect}"
+    puts "EMAIL_PASSWORD        : #{pass.to_s.empty? ? 'MISSING' : "set (#{pass.length} chars)"}"
+
+    if host.to_s.empty? || user.to_s.empty? || pass.to_s.empty?
+      puts "\n=> FAIL: mail credentials are not present in this environment."
+      puts "   Set them with: fly secrets set EMAIL_SMTP_SERVER=... EMAIL_DOMAIN=... EMAIL_USER=... EMAIL_PASSWORD=..."
+      next
+    end
+
+    [465, 587, 25].each do |port|
+      print "\nTCP #{host}:#{port} ... "
+      begin
+        Socket.tcp(host, port, connect_timeout: 15) { |s| s.close }
+        puts "reachable"
+      rescue => e
+        puts "BLOCKED/UNREACHABLE (#{e.class}: #{e.message})"
+        next
+      end
+
+      print "  SMTP AUTH on #{port} ... "
+      begin
+        smtp = Net::SMTP.new(host, port)
+        if port == 465
+          smtp.enable_tls
+        else
+          smtp.enable_starttls_auto
+        end
+        smtp.open_timeout = 15
+        smtp.read_timeout = 30
+        smtp.start(ENV['EMAIL_DOMAIN'] || 'localhost', user, pass, :login) do |s|
+          puts "OK"
+          if args[:to].to_s.strip.length > 0
+            s.send_message(
+              "From: #{user}\r\nTo: #{args[:to]}\r\nSubject: Crave Better SMTP diagnose (port #{port})\r\n\r\nSent from the production machine at #{Time.now}.\r\n",
+              user, args[:to]
+            )
+            puts "  Test message sent to #{args[:to]} via port #{port}"
+          end
+        end
+      rescue => e
+        puts "FAILED (#{e.class}: #{e.message})"
+      end
+    end
+  end
+end
+
+
 require 'optparse'
 
 
