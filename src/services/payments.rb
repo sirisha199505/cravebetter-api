@@ -80,13 +80,16 @@ class App::Services::Payments < App::Services::Base
     order = App::Models::Order.where(razorpay_order_id: rzp_order_id).first
     return_errors!('Order not found.', 404) unless order
 
-    # Idempotent: only send notifications if webhook hasn't already processed this
+    # Idempotent: only send notifications if webhook hasn't already processed this.
+    # When it has, the mail outcome is unknown here — nil tells the checkout screen
+    # to stay neutral rather than claim a confirmation was sent.
+    email_sent = nil
     unless order.razorpay_payment_id
       order.update(razorpay_payment_id: rzp_payment_id)
-      notify_order(order.reload)
+      email_sent = notify_order(order.reload)
     end
 
-    return_success(order.to_pos)
+    return_success(order.to_pos.merge(customer_email_sent: email_sent))
   rescue => e
     App.logger.error("Razorpay verify: #{e.message}")
     return_errors!(e.message)
@@ -187,8 +190,11 @@ class App::Services::Payments < App::Services::Base
     App.logger.error(e.backtrace.first(5).join("\n"))
   end
 
+  # Returns true if the confirmation actually reached the SMTP server, false
+  # otherwise — the checkout screen uses this to avoid promising a mail that
+  # was never delivered.
   def send_customer_confirmation(order)
-    return unless order.customer_email.to_s.strip.length > 0
+    return false unless order.customer_email.to_s.strip.length > 0
 
     items_text = Array(order.items).map do |i|
       "  • #{i['name']} x#{i['qty']} — ₹#{i['price'].to_i * i['qty'].to_i}"
@@ -225,7 +231,10 @@ class App::Services::Payments < App::Services::Base
       subject "Order Confirmed ##{order.order_number} — Crave Better Foods"
       body    body
     end.deliver!
+
+    true
   rescue => e
     App.logger.error("Customer email failed for order ##{order.order_number}: #{e.class}: #{e.message}")
+    false
   end
 end

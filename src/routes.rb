@@ -69,26 +69,13 @@ class App::Routes < Roda
       # Public: Pincode lookup proxy (avoids browser CORS on postalpincode.in)
       r.on 'pincode' do
         r.get String do |pin|
-          require 'net/http'
-          require 'openssl'
-          begin
-            uri  = URI("https://api.postalpincode.in/pincode/#{pin.gsub(/\D/, '')}")
-            http = Net::HTTP.new(uri.host, uri.port)
-            http.use_ssl     = true
-            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-            http.open_timeout = 5
-            http.read_timeout = 5
-            raw  = http.get(uri.request_uri)
-            data = JSON.parse(raw.body)
-            if data[0]['Status'] == 'Success' && data[0]['PostOffice']&.any?
-              po = data[0]['PostOffice'][0]
-              { status: 'success', data: { city: po['District'] || po['Name'], state: po['State'] } }
-            else
-              { status: 'error', data: 'Pincode not found' }
-            end
-          rescue => e
-            App.logger.error("Pincode lookup failed: #{e.message}")
-            { status: 'error', data: 'Pincode lookup failed' }
+          case (result = App::PincodeLookup.lookup(pin))
+          when Hash
+            { status: 'success', data: result }
+          when App::PincodeLookup::NOT_FOUND
+            { status: 'error', reason: 'not_found', data: 'Pincode not found' }
+          else
+            { status: 'error', reason: 'unavailable', data: 'Pincode lookup unavailable' }
           end
         end
       end

@@ -43,8 +43,8 @@ class App::Services::Orders < App::Services::Base
 
     if order.save
       send_admin_notification(order)
-      send_customer_confirmation(order)
-      return_success(order.to_pos)
+      email_sent = send_customer_confirmation(order)
+      return_success(order.to_pos.merge(customer_email_sent: email_sent))
     else
       return_errors!(order.errors)
     end
@@ -114,8 +114,11 @@ class App::Services::Orders < App::Services::Base
     App.logger.error(e.backtrace.first(5).join("\n"))
   end
 
+  # Returns true if the confirmation actually reached the SMTP server, false
+  # otherwise — the checkout screen uses this to avoid promising a mail that
+  # was never delivered.
   def send_customer_confirmation(order)
-    return unless order.customer_email.to_s.strip.length > 0
+    return false unless order.customer_email.to_s.strip.length > 0
 
     items_text = Array(order.items).map do |i|
       "  • #{i['name']} x#{i['qty']} — ₹#{i['price'].to_i * i['qty'].to_i}"
@@ -152,7 +155,10 @@ class App::Services::Orders < App::Services::Base
       subject "Order Confirmed ##{order.order_number} — Crave Better Foods"
       body    body
     end.deliver!
+
+    true
   rescue => e
     App.logger.error("Customer email failed for order ##{order.order_number}: #{e.class}: #{e.message}")
+    false
   end
 end
