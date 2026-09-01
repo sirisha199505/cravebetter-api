@@ -32,8 +32,10 @@ class App::Helpers::CurrentUser
 
     def token
       return nil if space[:auth_token].blank?
-      
-      @token ||= space[:auth_token].gsub("Bearer ", "")
+
+      # Must stay request-scoped: a class-level @token would leak one
+      # request's token into every later request in the same process.
+      space[:token] ||= space[:auth_token].gsub("Bearer ", "").strip
     end
 
     def decoded_token
@@ -100,7 +102,7 @@ class App::Helpers::CurrentUser
     def clear_cache!
       space.delete(:decoded)
       space.delete(:user_obj)
-      @token = nil
+      space.delete(:token)
     end
   end
 

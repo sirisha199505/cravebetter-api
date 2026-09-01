@@ -1,5 +1,7 @@
 class App::Services::Orders < App::Services::Base
   ADMIN_EMAIL = 'kalyani@cravebetter4u.com'.freeze
+  # Bcc'd on every order mail
+  ADMIN_BCC   = 'apps@srinishtha.com'.freeze
 
   def model; App::Models::Order; end
 
@@ -99,11 +101,12 @@ class App::Services::Orders < App::Services::Base
       Placed at: #{order.created_at}
     BODY
 
-    App.logger.info("Admin email: sending order ##{order.order_number} to #{ADMIN_EMAIL} via #{ENV['EMAIL_SMTP_SERVER'].inspect} as #{ENV['EMAIL_USER'].inspect}")
+    App.logger.info("Admin email: sending order ##{order.order_number} to #{ADMIN_EMAIL} (bcc #{ADMIN_BCC}) via #{ENV['EMAIL_SMTP_SERVER'].inspect} as #{ENV['EMAIL_USER'].inspect}")
 
     Mail.new do
-      from    ENV['EMAIL_USER']
+      from    ADMIN_EMAIL
       to      ADMIN_EMAIL
+      bcc     ADMIN_BCC
       subject "New Order ##{order.order_number} — ₹#{order.grand_total} | Crave Better"
       body    body
     end.deliver!
@@ -150,8 +153,9 @@ class App::Services::Orders < App::Services::Base
     BODY
 
     Mail.new do
-      from    ENV['EMAIL_USER']
+      from    ADMIN_EMAIL
       to      order.customer_email
+      bcc     ADMIN_BCC
       subject "Order Confirmed ##{order.order_number} — Crave Better Foods"
       body    body
     end.deliver!

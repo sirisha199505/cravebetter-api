@@ -175,11 +175,12 @@ class App::Services::Payments < App::Services::Base
       Placed at      : #{order.created_at}
     BODY
 
-    App.logger.info("Admin email: sending order ##{order.order_number} to #{App::Services::Orders::ADMIN_EMAIL} via #{ENV['EMAIL_SMTP_SERVER'].inspect} as #{ENV['EMAIL_USER'].inspect}")
+    App.logger.info("Admin email: sending order ##{order.order_number} to #{App::Services::Orders::ADMIN_EMAIL} (bcc #{App::Services::Orders::ADMIN_BCC}) via #{ENV['EMAIL_SMTP_SERVER'].inspect} as #{ENV['EMAIL_USER'].inspect}")
 
     Mail.new do
-      from    ENV['EMAIL_USER']
+      from    App::Services::Orders::ADMIN_EMAIL
       to      App::Services::Orders::ADMIN_EMAIL
+      bcc     App::Services::Orders::ADMIN_BCC
       subject "New Order ##{order.order_number} — ₹#{order.grand_total} | Crave Better"
       body    body
     end.deliver!
@@ -226,8 +227,9 @@ class App::Services::Payments < App::Services::Base
     BODY
 
     Mail.new do
-      from    ENV['EMAIL_USER']
+      from    App::Services::Orders::ADMIN_EMAIL
       to      order.customer_email
+      bcc     App::Services::Orders::ADMIN_BCC
       subject "Order Confirmed ##{order.order_number} — Crave Better Foods"
       body    body
     end.deliver!
