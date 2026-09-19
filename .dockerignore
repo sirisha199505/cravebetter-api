@@ -1,3 +1,7 @@
 **/.DS_Store
 **/.byebug_history
 ./older
+.env
+**/.env
+**/.env.*
+src/.env.bak

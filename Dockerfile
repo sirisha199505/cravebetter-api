@@ -4,7 +4,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends libpq-dev gcc m
 
 WORKDIR /app
 
-COPY Gemfile* .
+COPY Gemfile* ./
 
 ENV BUNDLE_FROZEN=false
 ENV RACK_ENV=production
