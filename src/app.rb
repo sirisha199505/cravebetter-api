@@ -62,18 +62,35 @@ module App
       @db.pool.connection_validation_timeout = 3600
     end
     
+    # The object store is MinIO, which speaks the S3 API, so the aws-sdk-s3 gem
+    # drives it unchanged — it only needs the endpoint and path-style bucket
+    # addressing, which MinIO requires because it has no per-bucket subdomains.
+    # Leave S3_ENDPOINT unset and this talks to real AWS S3 exactly as before.
     def setup_aws_config
-      # Use environment variables instead of hardcoded credentials
-      aws_access_key = ENV['AWS_ACCESS_KEY_ID']
-      aws_secret_key = ENV['AWS_SECRET_ACCESS_KEY']
-      aws_region = ENV['AWS_REGION'] || 'ap-south-1'
-      
+      # Use environment variables instead of hardcoded credentials.
+      # S3_* names win; the older AWS_* names still work.
+      access_key = ENV['MINIO_ACCESS_KEY_ID'].presence ||
+                   ENV['S3_ACCESS_KEY_ID'].presence ||
+                   ENV['AWS_ACCESS_KEY_ID']
+      secret_key = ENV['MINIO_SECRET_ACCESS_KEY'].presence ||
+                   ENV['S3_SECRET_ACCESS_KEY'].presence ||
+                   ENV['AWS_SECRET_ACCESS_KEY']
+      region     = App::Services::Uploads.region
+
       Aws.config.update(
-        region: aws_region,
-        credentials: Aws::Credentials.new(aws_access_key, aws_secret_key),
+        region: region,
+        credentials: Aws::Credentials.new(access_key, secret_key),
       )
-      
-      logger.info("AWS configuration initialized for region: #{aws_region}")
+
+      endpoint   = App::Services::Uploads.endpoint
+      path_style = App::Services::Uploads.force_path_style?
+      if endpoint
+        Aws.config[:s3] = { endpoint: endpoint, force_path_style: path_style }
+        logger.info("Object store: MinIO at #{endpoint} " \
+                    "(region: #{region}, path-style: #{path_style})")
+      else
+        logger.info("Object store: AWS S3 (region: #{region})")
+      end
     end
 
     def cu

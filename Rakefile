@@ -9,6 +9,10 @@ if File.exist?(env_file)
   end
 end
 require './src/app'
+
+# Task files live in tasks/*.rake so this file stays readable.
+Dir.glob(File.expand_path('tasks/*.rake', __dir__)).sort.each { |f| load f }
+
 namespace :db do
   desc "Run migrations"
   task :migrate, [:version] do |t, args|

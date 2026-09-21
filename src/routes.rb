@@ -66,6 +66,19 @@ class App::Routes < Roda
         r.get { Faqs[r].list }
       end
 
+      # Public: testimonials (?featured=true for the homepage strip)
+      r.on 'testimonials' do
+        r.get { Testimonials[r].list }
+      end
+
+      # Public: gallery — folder list first, then a folder's images
+      # (?folder=<slug>&page=&page_size=), always paginated.
+      r.on 'gallery' do
+        r.get('folders') { GalleryFolders[r].list }
+        r.get('links')   { GalleryLinks[r].list }
+        r.get { GalleryItems[r].list }
+      end
+
       # Public: Pincode lookup proxy (avoids browser CORS on postalpincode.in)
       r.on 'pincode' do
         r.get String do |pin|
@@ -144,6 +157,39 @@ class App::Routes < Roda
             r.post   { Faqs[r].create }
             r.put(Integer)    { |id| Faqs[r, id: id].update }
             r.delete(Integer) { |id| Faqs[r, id: id].delete }
+          end
+
+          r.on 'testimonials' do
+            r.get    { Testimonials[r].admin_list }
+            r.post   { Testimonials[r].create }
+            r.put(Integer)    { |id| Testimonials[r, id: id].update }
+            r.delete(Integer) { |id| Testimonials[r, id: id].delete }
+          end
+
+          r.on 'gallery' do
+            # 'folders' and 'bulk' must be matched before the bare verbs below.
+            r.on 'folders' do
+              r.get    { GalleryFolders[r].admin_list }
+              r.post   { GalleryFolders[r].create }
+              r.put(Integer)    { |id| GalleryFolders[r, id: id].update }
+              r.delete(Integer) { |id| GalleryFolders[r, id: id].delete }
+            end
+            r.on 'links' do
+              r.get    { GalleryLinks[r].admin_list }
+              r.post   { GalleryLinks[r].create }
+              r.put(Integer)    { |id| GalleryLinks[r, id: id].update }
+              r.delete(Integer) { |id| GalleryLinks[r, id: id].delete }
+            end
+            r.post('bulk') { GalleryItems[r].bulk_create }
+            r.get    { GalleryItems[r].admin_list }
+            r.post   { GalleryItems[r].create }
+            r.put(Integer)    { |id| GalleryItems[r, id: id].update }
+            r.delete(Integer) { |id| GalleryItems[r, id: id].delete }
+          end
+
+          # Presigned S3 PUT URLs for admin image uploads
+          r.on 'uploads' do
+            r.post('presign') { Uploads[r].presign }
           end
         end
 
