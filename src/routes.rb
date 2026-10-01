@@ -66,6 +66,11 @@ class App::Routes < Roda
         r.get { Faqs[r].list }
       end
 
+      # Public: homepage banner slider
+      r.on 'banners' do
+        r.get { Banners[r].list }
+      end
+
       # Public: testimonials (?featured=true for the homepage strip)
       r.on 'testimonials' do
         r.get { Testimonials[r].list }
@@ -157,6 +162,13 @@ class App::Routes < Roda
             r.post   { Faqs[r].create }
             r.put(Integer)    { |id| Faqs[r, id: id].update }
             r.delete(Integer) { |id| Faqs[r, id: id].delete }
+          end
+
+          r.on 'banners' do
+            r.get    { Banners[r].admin_list }
+            r.post   { Banners[r].create }
+            r.put(Integer)    { |id| Banners[r, id: id].update }
+            r.delete(Integer) { |id| Banners[r, id: id].delete }
           end
 
           r.on 'testimonials' do
